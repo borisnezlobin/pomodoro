@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Ubuntu+Mono:wght@400;700&&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body{
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  overflow: hidden;
+}
+
+.blur-on-unfocus{
+  transition: filter .25s ease;
+}
+
+
+.secondary-text {
+  color: #777;
+}
+
+.draggable{
+  -webkit-app-region: drag;
+}
+
+.monospace{
+  font-family: 'PT Mono', monospace;
+}
+
+/* bounce transition */
+.transition {
+  transition: all .25s ease;
+}
+
+.code {
+  font-family: 'PT Mono', 'Ubuntu Mono', Courier, monospace;
+}
+
+.focus-dropdown {
+  outline: none;
+  color: #333;
+  position: relative;
+}
+
+.focus-dropdown .dropdown-content{
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 4px;
+  padding: 0.5rem 0.8rem;
+  width: 100%;
+  min-width: 14rem;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 20;
+  transition: all .25s ease;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+}
+
+.focus-dropdown:hover .dropdown-content{
+  /* top: 100%; */
+  opacity: 1;
+  pointer-events: all;
+}
+
+.form-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
+  display: inline-block;
+  vertical-align: middle;
+  background-origin: border-box;
+  user-select: none;
+  flex-shrink: 0;
+  height: 1rem;
+  width: 1rem;
+  border: 1px solid #333;
+  border-radius: 0.25rem;
+}
+
+
+.form-checkbox:checked {
+  background-color: #333;
+  border-color: #333;
+  color: white;
+}
