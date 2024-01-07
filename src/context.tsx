@@ -63,6 +63,8 @@ class SessionManager {
             return;
         }
 
+        if(this.currentTimeout) clearTimeout(this.currentTimeout);
+
         this.currentSession = session;
         this.currentSession.status = "current";
         this.currentSession.start = Date.now();
