@@ -38,6 +38,7 @@ class SessionManager {
     }) {
         this.sessionEndCB = sessionEndCallback;
         this.endCurrentSession = this.endCurrentSession.bind(this);
+        this.endAllSessions = this.endAllSessions.bind(this);
     }
 
     getCurrentSession() { return this.currentSession; }
@@ -63,7 +64,7 @@ class SessionManager {
             return;
         }
 
-        if(this.currentTimeout) clearTimeout(this.currentTimeout);
+        if (this.currentTimeout) clearTimeout(this.currentTimeout);
 
         this.currentSession = session;
         this.currentSession.status = "current";
@@ -97,16 +98,23 @@ class SessionManager {
         this.sessionEndCB(this.getCurrentSession());
         console.log("session ended, callback called, exiting.");
     }
+
+    endAllSessions() {
+        this.endCurrentSession(false);
+        this.queuedSessions = [];
+    }
 }
 
 export const CurrentSessionContext = createContext<{
     currentSession: NullableSession,
     setCurrentSession: (newSession: Session) => void,
-    endCurrentSession: (start: boolean) => void
+    endCurrentSession: (start: boolean) => void,
+    endAllSessions: () => void,
 }>({
     currentSession: null,
     setCurrentSession: () => { },
-    endCurrentSession: () => { }
+    endCurrentSession: () => { },
+    endAllSessions: () => { }
 });
 
 const CurrentSessionProvider: React.FC<ChildrenProps> = ({ children }) => {
@@ -139,6 +147,7 @@ const CurrentSessionProvider: React.FC<ChildrenProps> = ({ children }) => {
             currentSession,
             setCurrentSession: setCurrentSessionFr,
             endCurrentSession: endCurrentSessionFr,
+            endAllSessions: manager.current.endAllSessions
         }}>
             {children}
         </CurrentSessionContext.Provider>

@@ -33,9 +33,9 @@ const FocusSession = () => {
 
     return (
         <>
-            <BigText className="text-5xl">
-                <Muted className="text-base">Focus</Muted>
-                <TimeLeft className="code" />
+            <BigText className="text-5xl w-48 px-4">
+                <Muted className="text-base w-48">Focus</Muted>
+                <TimeLeft className="code w-48 text-left" />
             </BigText>
             <div className="mt-4 w-48 flex flex-col justify-start items-center">
                 <TextButton onClick={() => {

@@ -10,7 +10,7 @@ import NoSession from "./main_components/no-session"
 import FocusSession from "./main_components/focus-session"
 
 export const MainPage = () => {
-    const { currentSession, setCurrentSession, endCurrentSession } = useContext(CurrentSessionContext);
+    const { currentSession, endAllSessions, endCurrentSession } = useContext(CurrentSessionContext);
 
     var content;
 
@@ -21,16 +21,16 @@ export const MainPage = () => {
     } else if (currentSession.type == "break"){
         content = (
             <>
-                <BigText className="text-5xl">
-                    <Muted className="text-sm text-left">Break</Muted>
-                    <TimeLeft className="code" />
+                <BigText className="text-5xl w-48 px-4">
+                    <Muted className="text-sm text-left w-full">Break</Muted>
+                    <TimeLeft className="code w-full text-left" />
                 </BigText>
                 <div className="w-48 mt-4 flex flex-col justify-start items-center">
                     <TextButton onClick={() => endCurrentSession(true)} className="w-full justify-start">
                         <CaretLeft weight="bold" />
                         Resume Focus
                     </TextButton>
-                    <TextButton onClick={() => {}} className="w-full justify-start text-red-800">
+                    <TextButton onClick={endAllSessions} className="w-full justify-start text-red-800">
                         <TrashSimple weight="bold" />
                         End Session
                     </TextButton>
