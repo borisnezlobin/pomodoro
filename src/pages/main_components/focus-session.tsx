@@ -55,9 +55,6 @@ const FocusSession = () => {
                 <BigText className="text-lg">How long will this break be?</BigText>
                 <Muted>You've been focused for <span className="code">{formatAsStr(Date.now() - currentSession.start)}</span></Muted>
                 <div className="flex flex-col justify-center items-center my-4">
-                    {/* <TextButton onClick={() => setBreakLength(breakLength < MAX ? breakLength + 1 : MAX)}>
-                        <CaretUp className="text-sky-800 w-8 h-8" weight="bold" />
-                    </TextButton> */}
                     <BigText>
                         <input
                             value={breakLength}
@@ -71,9 +68,6 @@ const FocusSession = () => {
                         />
                         <span className="ml-4 code text-lg">minutes</span>
                     </BigText>
-                    {/* <TextButton onClick={() => setBreakLength(breakLength > MIN ? breakLength - 1 : MIN)}>
-                        <CaretDown className="text-sky-800 w-8 h-8" weight="bold" />
-                    </TextButton> */}
                 </div>
                 <div className="w-full flex flex-row justify-between items-center">
                     <TextButton onClick={() => setModalOpen(false) }>
