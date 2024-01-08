@@ -1,6 +1,5 @@
 export const formatMMSS = (date: number) => {
     const d = new Date(date);
-    console.log(d);
     var ret = "";
     const hours = d.getHours() - 1;
     if(hours > 0){
@@ -15,8 +14,6 @@ export const formatMMSS = (date: number) => {
 // returns "{x}h {y}m"
 export const formatAsStr = (date: number) => {
     const d = new Date(date);
-    console.log("Formatting ");
-    console.log(d);
 
     var ret = "";
     const hours = d.getHours() - 1;
