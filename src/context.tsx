@@ -1,13 +1,22 @@
 import { useState, createContext, useEffect, useRef } from "react";
 import ChildrenProps from "./utils/children-props";
+import { formatAsStr } from "./utils/date-time";
+
+type NotificationCreateRequest = {
+    title: string,
+    body?: string,
+}
 
 declare global {
     interface Window {
         api: {
             // idk, we'll see
+            showNotification: (args: NotificationCreateRequest) => {}
         };
     }
 }
+
+window.api.showNotification({ title: "whatever" })
 
 export type Session = {
     type: "focus" | "break" | "none",
@@ -70,7 +79,13 @@ class SessionManager {
         this.currentSession.status = "current";
         this.currentSession.start = Date.now();
 
-        this.currentTimeout = setTimeout(() => this.endCurrentSession(true), this.currentSession.length);
+        this.currentTimeout = setTimeout(() => {
+            if (session.type == "focus") window.api.showNotification({
+                title: "Session over!",
+                body: "You were focused for " + formatAsStr(session.length),
+            })
+            this.endCurrentSession(true)
+        }, this.currentSession.length);
     }
 
     startNextSession() {

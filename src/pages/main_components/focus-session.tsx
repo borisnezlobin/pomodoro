@@ -66,7 +66,7 @@ const FocusSession = () => {
                             }}
                             className="text-center code border-b border-gray-800"
                         />
-                        <span className="ml-4 code text-lg">minutes</span>
+                        <span className="ml-4 code text-lg">minute{breakLength == 1 ? "" : "s"}</span>
                     </BigText>
                 </div>
                 <div className="w-full flex flex-row justify-between items-center">
