@@ -6,12 +6,12 @@ const clientId = '1015856802748969061';
 const RPC = new DiscordRPC.Client({ transport: 'ipc' });
 
 
-var endTime = Date.now()+3600000;
+var endTime = Date.now() + 3600000;
 DiscordRPC.register(clientId);
 
 var currentActivity: DiscordRPC.Presence | null = null;
 
-async function setRPCActivity(){
+async function setRPCActivity() {
     console.log("starting rpc");
     if (!RPC || !currentActivity) return;
     RPC.setActivity(currentActivity);
@@ -28,7 +28,7 @@ RPC.on('ready', async () => {
     return () => clearInterval(interval)
 })
 
-RPC.login({ clientId }).catch(err => console.error(err)); 
+RPC.login({ clientId }).catch(err => console.error(err));
 
 
 type NotificationCreateRequest = {
@@ -36,7 +36,12 @@ type NotificationCreateRequest = {
     body?: string,
 }
 
-function setupIpcController(){
+const clearRPC = () => {
+    currentActivity = null;
+    RPC.clearActivity();
+}
+
+function setupIpcController() {
     // idk
     ipcMain.handle('show-notification', (event, args: NotificationCreateRequest) => {
         // do
@@ -49,13 +54,20 @@ function setupIpcController(){
     });
 
     ipcMain.handle("start-rpc", (event, args) => {
+        if (args.session.type == "none") {
+            clearRPC();
+            return;
+        }
+
+        let detailsText = "In a focus session!";
+        if (args.session.type == "break") detailsText = "On a break!";
+
         currentActivity = {
-            details: 'In a focus session!',
-            state: 'Session over in:',
+            details: detailsText,
             startTimestamp: Date.now(),
             endTimestamp: Date.now() + args.session.length,
             largeImageKey: 'session_img',
-            largeImageText: 'I\'m not available right now, check back later.',
+            largeImageText: args.session.type == "focus" ? 'I\'m not available right now, check back later.' : 'I\'m on a break!',
             smallImageKey: 'download-2',
             smallImageText: 'I will be back!',
             instance: false,
@@ -64,7 +76,11 @@ function setupIpcController(){
         setRPCActivity();
     });
 
-    ipcMain.handle("end-rpc", () => RPC.clearActivity());
+    ipcMain.handle("end-rpc", clearRPC);
 };
 
-export { setupIpcController };
+const cleanup = () => {
+    clearRPC();
+};
+
+export { setupIpcController, cleanup };
