@@ -11,7 +11,9 @@ declare global {
     interface Window {
         api: {
             // idk, we'll see
-            showNotification: (args: NotificationCreateRequest) => {}
+            showNotification: (args: NotificationCreateRequest) => {},
+            startDiscordRPC: (args: { session: Session }) => {},
+            endDiscordRPC: () => {}
         };
     }
 }
@@ -78,13 +80,15 @@ class SessionManager {
         this.currentSession = session;
         this.currentSession.status = "current";
         this.currentSession.start = Date.now();
+        window.api.startDiscordRPC({ session: session });
 
         this.currentTimeout = setTimeout(() => {
             if (session.type == "focus") window.api.showNotification({
                 title: "Session over!",
                 body: "You were focused for " + formatAsStr(session.length),
             })
-            this.endCurrentSession(true)
+            this.endCurrentSession(true);
+            window.api.endDiscordRPC();
         }, this.currentSession.length);
     }
 
