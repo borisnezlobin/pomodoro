@@ -15,15 +15,16 @@ export const formatMMSS = (date: number) => {
 
 // returns "{x}h {y}m"
 export const formatAsStr = (date: number) => {
-    const d = new Date(date);
+    const hours = Math.floor(date / 3600000);
+    const minutes = Math.floor((date - hours * 3600000) / 60000);
+    const seconds = Math.floor((date - hours * 3600000 - minutes * 60000) / 1000);
 
     var ret = "";
-    const hours = d.getHours() - 1;
     if(hours > 0){
         ret += hours + "h ";
     }
 
-    ret += d.getMinutes() + "m";
+    ret += minutes + "m";
 
     return ret;
 }

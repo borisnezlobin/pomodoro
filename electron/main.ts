@@ -2,7 +2,7 @@ import { app, BrowserWindow, Menu, shell } from 'electron';
 import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import { mainMenu } from './keyboard-shortcuts';
-import { setupIpcController } from './ipc-controller';
+import { cleanup, setupIpcController } from './ipc-controller';
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -45,9 +45,14 @@ app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    cleanup();
     app.quit();
   }
 });
+
+app.on("quit", () => {
+  cleanup();
+})
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
