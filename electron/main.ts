@@ -3,7 +3,6 @@ import * as path from 'path';
 import * as isDev from 'electron-is-dev';
 import { mainMenu } from './keyboard-shortcuts';
 import { setupIpcController } from './ipc-controller';
-import { Notification } from 'electron/main';
 
 function createWindow() {
   const win = new BrowserWindow({

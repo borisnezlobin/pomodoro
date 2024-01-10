@@ -5,7 +5,6 @@ import { TimeLeft } from "../utils/time-left"
 import { useContext, useState } from "react"
 import { CurrentSessionContext, Session } from "../context"
 import { Muted } from "../typography/muted"
-import { Modal } from "../utils/modal"
 import NoSession from "./main_components/no-session"
 import FocusSession from "./main_components/focus-session"
 
