@@ -59,7 +59,9 @@ function setupIpcController(){
             smallImageKey: 'download-2',
             smallImageText: 'I will be back!',
             instance: false,
-        }
+        };
+
+        setRPCActivity();
     });
 
     ipcMain.handle("end-rpc", () => RPC.clearActivity());

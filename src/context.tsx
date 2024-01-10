@@ -82,13 +82,13 @@ class SessionManager {
         this.currentSession.start = Date.now();
         window.api.startDiscordRPC({ session: session });
 
+        // TODO: check if timeout failed to be called due to laptop being off or something
         this.currentTimeout = setTimeout(() => {
             if (session.type == "focus") window.api.showNotification({
                 title: "Session over!",
                 body: "You were focused for " + formatAsStr(session.length),
             })
             this.endCurrentSession(true);
-            window.api.endDiscordRPC();
         }, this.currentSession.length);
     }
 
@@ -112,6 +112,7 @@ class SessionManager {
         console.log("ending session");
         if (!this.currentSession || this.currentTimeout === null) return;
         clearTimeout(this.currentTimeout);
+        window.api.endDiscordRPC();
         this.currentSession = null;
         if (startNext) this.startNextSession();
         this.sessionEndCB(this.getCurrentSession());

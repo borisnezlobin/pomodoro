@@ -1,12 +1,14 @@
 export const formatMMSS = (date: number) => {
-    const d = new Date(date);
-    var ret = "";
-    const hours = d.getHours() - 1;
+    const hours = Math.floor(date / 3600000);
+    const minutes = Math.floor((date - hours * 3600000) / 60000);
+    const seconds = Math.floor((date - hours * 3600000 - minutes * 60000) / 1000);
+
+    let ret = "";
     if(hours > 0){
         ret += (hours < 10 ? "0" : "") + hours + ":";
     }
-    ret += (d.getMinutes() < 10 ? "0" : "") + d.getMinutes() + ":";
-    ret += (d.getSeconds() < 10 ? "0" : "") + d.getSeconds();
+    ret += (minutes < 10 ? "0" : "") + minutes + ":";
+    ret += (seconds < 10 ? "0" : "") + seconds;
 
     return ret;
 }
