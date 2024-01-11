@@ -2,9 +2,8 @@ import { ipcMain } from "electron";
 import { Notification } from "electron/main";
 import DiscordRPC from "discord-rpc";
 
-const clientId = '1015856802748969061';
+const clientId = "1194793667337142334"; // this fallback is for an app called "META Now(tm)"... idk
 const RPC = new DiscordRPC.Client({ transport: 'ipc' });
-
 
 var endTime = Date.now() + 3600000;
 DiscordRPC.register(clientId);
@@ -12,8 +11,8 @@ DiscordRPC.register(clientId);
 var currentActivity: DiscordRPC.Presence | null = null;
 
 async function setRPCActivity() {
-    console.log("starting rpc");
     if (!RPC || !currentActivity) return;
+    console.log(`polling rpc`);
     RPC.setActivity(currentActivity);
 }
 
@@ -58,20 +57,27 @@ function setupIpcController() {
             clearRPC();
             return;
         }
+        if (args.session.type === "focus") {
+            currentActivity = {
+                details: "In a focus session!",
+                startTimestamp: Date.now(),
+                endTimestamp: Date.now() + args.session.length,
+                largeImageKey: 'bell_slash',
+                largeImageText: "I\'m not available right now, check back later.",
+                instance: false,
+            };
+        } else {
+            currentActivity = {
+                details: "On a break!",
+                startTimestamp: Date.now(),
+                endTimestamp: Date.now() + args.session.length,
+                largeImageKey: 'hourglass',
+                largeImageText: "I'm on a break!",
+                instance: false,
+            };
+        }
 
-        let detailsText = "In a focus session!";
-        if (args.session.type == "break") detailsText = "On a break!";
-
-        currentActivity = {
-            details: detailsText,
-            startTimestamp: Date.now(),
-            endTimestamp: Date.now() + args.session.length,
-            largeImageKey: 'session_img',
-            largeImageText: args.session.type == "focus" ? 'I\'m not available right now, check back later.' : 'I\'m on a break!',
-            smallImageKey: 'download-2',
-            smallImageText: 'I will be back!',
-            instance: false,
-        };
+        console.log("setting rpc for \'" + args.session.type + "\' session");
 
         setRPCActivity();
     });
